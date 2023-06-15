@@ -52,12 +52,28 @@ const App = () => {
     console.log(newVotes)
   }
 
+  const getIndexOfAnecdoteWithMostVotes = () => {
+    let maxVotes = 0
+    let maxIndex = 0
+    for (let i = 0; i < votes.length; i++) {
+      if (votes[i] > maxVotes) {
+        maxVotes = votes[i]
+        maxIndex = i
+      }
+    }
+    return maxIndex
+  }
+
   return (
     <div>
+      <h2>Random Anecdote</h2>
       {anecdotes[selected]} <br />
       has {votes[selected]} votes <br />
       <button onClick={handleVote}>Vote</button>
       <button onClick={handleAnecdoteSelection}>Random Anecdote</button>
+      <h2>Anecdote with most votes</h2>
+      {anecdotes[getIndexOfAnecdoteWithMostVotes()]} <br />
+      has {votes[getIndexOfAnecdoteWithMostVotes()]} votes <br />
     </div>
   )
 }
