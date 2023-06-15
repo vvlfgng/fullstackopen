@@ -31,23 +31,32 @@ const App = () => {
     'Programming languages are like cars. Some are fast and powerful, some are safe and reliable, and some are just fun to drive.',
     'Programmers don\'t die, they just get garbage collected.'
   ]
-  
-  //generate a random number to select a random anecdote from anecdotes
+
+  const voteAmounts = new Array(anecdotes.length).fill(0)
+
   const randomAnecdote = () => {
     return Math.floor(Math.random() * anecdotes.length)
   }
 
   const [selected, setSelected] = useState(randomAnecdote())
+  const [votes, setVotes] = useState(voteAmounts);
 
   const handleAnecdoteSelection = () => {
     setSelected(randomAnecdote())
   }
 
-
+  const handleVote = () => {
+    const newVotes = [...votes]
+    newVotes[selected] += 1
+    setVotes(newVotes)
+    console.log(newVotes)
+  }
 
   return (
     <div>
       {anecdotes[selected]} <br />
+      has {votes[selected]} votes <br />
+      <button onClick={handleVote}>Vote</button>
       <button onClick={handleAnecdoteSelection}>Random Anecdote</button>
     </div>
   )
