@@ -32,9 +32,18 @@ const App = () => {
       alert(`${newName} is already in the phonebook`)
       return
     }
-    setPersons([...persons, { name: newName, number: newNumber, id: persons.length + 1}])
-    setNewName('')
-    setNewNumber('')
+    const person = {
+      name: newName,
+      number: newNumber,
+    }
+
+    axios
+    .post('http://localhost:3001/persons', person)
+    .then(response => {
+      setPersons(persons.concat(response.data))
+      setNewName('')
+      setNewNumber('')
+    })
   }
 
   const handleSearchChange = (event) => {
