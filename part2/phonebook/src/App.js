@@ -3,12 +3,15 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Person from './components/Person'
 import personsService from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newSearch, setNewSearch] = useState('')
+  const [notificationMessage, setNotificationMessage] = useState(null)
+  const [notificationType, setNotificationType] = useState(null)
 
   useEffect(() => {
     personsService
@@ -42,6 +45,12 @@ const App = () => {
             setPersons(persons.map(person => person.id === updatedPerson.id? updatedPerson : person))
             setNewName('')
             setNewNumber('')
+            setNotificationType('notification-success')
+            setNotificationMessage(`Changed ${updatedPerson.name}'s number`)
+            setTimeout(() => {
+              setNotificationMessage(null)
+              setNotificationType(null)
+            }, 3000)
           })
         return
       }
@@ -53,6 +62,12 @@ const App = () => {
       setPersons(persons.concat(newPerson))
       setNewName('')
       setNewNumber('')
+      setNotificationType('notification-success')
+      setNotificationMessage(`Added ${newPerson.name}'s number`)
+      setTimeout(() => {
+        setNotificationMessage(null)
+        setNotificationType(null)
+      }, 3000)
     })
   }
 
@@ -72,6 +87,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMessage} type={notificationType} />
       <Filter value={newSearch} onChange={handleSearchChange} />
       <h3>Add new</h3>
       <PersonForm addPerson={addPerson} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
