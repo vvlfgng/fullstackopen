@@ -52,6 +52,14 @@ const App = () => {
               setNotificationType(null)
             }, 3000)
           })
+          .catch(error => {
+            setNotificationType('notification-error')
+            setNotificationMessage(`Failed to change ${person.name}'s number`)
+            setTimeout(() => {
+              setNotificationMessage(null)
+              setNotificationType(null)
+            }, 3000)
+          })
         return
       }
     }
@@ -63,7 +71,15 @@ const App = () => {
       setNewName('')
       setNewNumber('')
       setNotificationType('notification-success')
-      setNotificationMessage(`Added ${newPerson.name}'s number`)
+      setNotificationMessage(`Added ${person.name}'s number`)
+      setTimeout(() => {
+        setNotificationMessage(null)
+        setNotificationType(null)
+      }, 3000)
+    })
+    .catch(error => {
+      setNotificationType('notification-error')
+      setNotificationMessage(`Failed to add ${person.name}'s number`)
       setTimeout(() => {
         setNotificationMessage(null)
         setNotificationType(null)
@@ -78,7 +94,23 @@ const App = () => {
   const removePerson = (id) => {
     if (window.confirm(`Are you sure you want to delete ${persons.find(person => person.id === id).name}?`)) {
       personsService.remove(id)
-      setPersons(persons.filter(person => person.id!== id))
+      .then(removedPerson => {
+        setPersons(persons.filter(person => person.id!== id))
+        setNotificationType('notification-success')
+        setNotificationMessage(`Removed ${removedPerson.name}'s number`)
+        setTimeout(() => {
+          setNotificationMessage(null)
+          setNotificationType(null)
+        }, 3000)
+      })
+      .catch(error => {
+        setNotificationType('notification-error')
+        setNotificationMessage(`Failed to remove ${persons.find(person => person.id === id).name}'s number`)
+        setTimeout(() => {
+          setNotificationMessage(null)
+          setNotificationType(null)
+        }, 3000)
+      })
     }
   }
 
